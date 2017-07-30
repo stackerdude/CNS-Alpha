@@ -60,16 +60,16 @@ angular.module('myApp.scheduling', ['ngRoute'])
         $scope.init = function() {
             // Load all entites
             //    Load the current data for the nodes
-            $http.get('http://localhost:8080/allSchedule').then(scheduleDataReceived, scheduleDataError);
-            $http.get('http://localhost:8080/allNodeInfo').then(nodeDataReceived, nodeDataError);
-            $http.get('http://localhost:8080/allZoneInfo').then(zoneDataReceived, zoneDataError);
+            $http.get('http://10.1.1.11:8080/allSchedule').then(scheduleDataReceived, scheduleDataError);
+            $http.get('http://10.1.1.11:8080/allNodeInfo').then(nodeDataReceived, nodeDataError);
+            $http.get('http://10.1.1.11:8080/allZoneInfo').then(zoneDataReceived, zoneDataError);
 
         };
 
         $scope.deleteSchedule = function(id) {
           var deletePayload = {};
           deletePayload.schedule_id = id;
-          $http.post('http://localhost:8080/deleteSchedule', deletePayload).then(deleteScheduleDataReceived, deleteScheduleDataError);
+          $http.post('http://10.1.1.11:8080/deleteSchedule', deletePayload).then(deleteScheduleDataReceived, deleteScheduleDataError);
 
         };
 
@@ -93,14 +93,14 @@ angular.module('myApp.scheduling', ['ngRoute'])
 
 
 
-            $http.post('http://localhost:8080/setScheduleStatus', payload).then(lockScheduleDataReceived, lockScheduleDataError);
+            $http.post('http://10.1.1.11:8080/setScheduleStatus', payload).then(lockScheduleDataReceived, lockScheduleDataError);
 
         }
 
 
 
         var deleteScheduleDataReceived = function(response) {
-          $http.get('http://localhost:8080/allSchedule').then(scheduleDataReceived, scheduleDataError);
+          $http.get('http://10.1.1.11:8080/allSchedule').then(scheduleDataReceived, scheduleDataError);
 
 
         };
@@ -111,7 +111,7 @@ angular.module('myApp.scheduling', ['ngRoute'])
         };
 
         var lockScheduleDataReceived = function(response) {
-          $http.get('http://localhost:8080/allSchedule').then(scheduleDataReceived, scheduleDataError);
+          $http.get('http://10.1.1.11:8080/allSchedule').then(scheduleDataReceived, scheduleDataError);
 
 
         };
@@ -169,12 +169,12 @@ angular.module('myApp.scheduling', ['ngRoute'])
 
 
 
-            $http.post('http://localhost:8080/createSchedule', scheduleCreatePayload).then(scheduleSaved, nodeDataError);
+            $http.post('http://10.1.1.11:8080/createSchedule', scheduleCreatePayload).then(scheduleSaved, nodeDataError);
 
         }
 
         var scheduleSaved = function() {
-            $http.get('http://localhost:8080/allSchedule').then(scheduleDataReceived, scheduleDataError);
+            $http.get('http://10.1.1.11:8080/allSchedule').then(scheduleDataReceived, scheduleDataError);
 
         }
 

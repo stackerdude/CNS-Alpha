@@ -21,7 +21,7 @@ angular.module('myApp.nodes', ['ngRoute'])
 
         $scope.init = function() {
             //    Load the current data for the nodes
-            $http.get('http://localhost:8080/allNodeInfo').then(nodeDataReceived, nodeDataError);
+            $http.get('http://10.1.1.11:8080/allNodeInfo').then(nodeDataReceived, nodeDataError);
 
         };
 
@@ -80,7 +80,7 @@ angular.module('myApp.nodes', ['ngRoute'])
             }
 
 
-            $http.post('http://localhost:8080/setNodeStatus', payload).then(nodeUpdateRecieved, nodeUpdateError);
+            $http.post('http://10.1.1.11:8080/setNodeStatus', payload).then(nodeUpdateRecieved, nodeUpdateError);
 
         }
 

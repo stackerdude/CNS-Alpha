@@ -26,8 +26,8 @@ angular.module('myApp.zones', ['ngRoute'])
 
         $scope.init = function() {
 
-            $http.get('http://localhost:8080/allZoneInfo').then(zoneDataReceived, zoneDataError);
-            $http.get('http://localhost:8080/allNodeInfo').then(nodeDataReceived, nodeDataError);
+            $http.get('http://10.1.1.11:8080/allZoneInfo').then(zoneDataReceived, zoneDataError);
+            $http.get('http://10.1.1.11:8080/allNodeInfo').then(nodeDataReceived, nodeDataError);
 
 
         };
@@ -36,7 +36,7 @@ angular.module('myApp.zones', ['ngRoute'])
             //    Clear the model
             console.log(response);
             $scope.currentZones = response.data;
-            $http.get('http://localhost:8080/allZoneInfo').then(zoneNodesDataReceived, zoneNodesDataError);
+            $http.get('http://10.1.1.11:8080/allZoneInfo').then(zoneNodesDataReceived, zoneNodesDataError);
 
         };
 
@@ -108,12 +108,12 @@ angular.module('myApp.zones', ['ngRoute'])
             };
             //    Create the zone, and in the callback create the zoneNodes
 
-            $http.post('http://localhost:8080/createZone', zoneCreateConfig).then(zoneSaved, nodeDataError);
+            $http.post('http://10.1.1.11:8080/createZone', zoneCreateConfig).then(zoneSaved, nodeDataError);
 
         }
 
         var zoneSaved = function() {
-          $http.get('http://localhost:8080/allZoneInfo').then(zoneDataReceived, zoneDataError);
+          $http.get('http://10.1.1.11:8080/allZoneInfo').then(zoneDataReceived, zoneDataError);
 
         }
 
