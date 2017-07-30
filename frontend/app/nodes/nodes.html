@@ -1,0 +1,44 @@
+<div layout="row" layout-xs="column" ng-controller="NodesCtrl" ng-init="init()">
+  <div flex>
+    <div ng-repeat="node in nodeArrayLeft" class="node_container">
+      <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">{{node.name}}</span>
+            <button class="node_button" ng-click="nodeClicked('left', $index, 'status')"><img class="node_image"
+          ng-src="{{node.status =='on'? 'assets/png/sprinkler-on.png' : 'assets/png/sprinkler-off.png'}}"
+          style="background-color: transparent"/></button>
+          </md-card-title-text>
+          <md-card-title-media>
+            <div class="md-media-lg card-media"></div>
+          </md-card-title-media>
+        </md-card-title>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button class="md-raised" ng-click="nodeClicked('left', $index, 'status')">Status: {{node.status}}</md-button>
+          <md-button class="md-raised" ng-click="nodeClicked('left', $index, 'lock')">Manual Overide: {{node.lock}}</md-button>
+        </md-card-actions>
+      </md-card>
+    </div>
+  </div>
+  <div flex>
+    <div ng-repeat="node in nodeArrayRight" class="node_container">
+      <md-card md-theme="{{ showDarkTheme ? 'dark-grey' : 'default' }}" md-theme-watch>
+        <md-card-title>
+          <md-card-title-text>
+            <span class="md-headline">{{node.name}}</span>
+            <button class="node_button" ng-click="nodeClicked('right', $index, 'status')"><img class="node_image"
+          ng-src="{{node.status =='on'? 'assets/png/sprinkler-on.png' : 'assets/png/sprinkler-off.png'}}"
+          style="background-color: transparent"/></button>
+          </md-card-title-text>
+          <md-card-title-media>
+            <div class="md-media-lg card-media"></div>
+          </md-card-title-media>
+        </md-card-title>
+        <md-card-actions layout="row" layout-align="end center">
+          <md-button class="md-raised" ng-click="nodeClicked('right', $index, 'status')">Status: {{node.status}}</md-button>
+          <md-button class="md-raised" ng-click="nodeClicked('right', $index, 'lock')" >Manual Overide: {{node.lock}}</md-button>
+        </md-card-actions>
+      </md-card>
+    </div>
+  </div>
+</div>

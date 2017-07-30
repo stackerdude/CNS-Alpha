@@ -1,0 +1,11 @@
+<div ng-controller="SettingsCtrl" ng-init="init()">
+<md-list ng-repeat="node in nodes" ng-cloak>
+
+  <md-list-item class="secondary-button-padding">
+     <p>{{node.name}}</p>
+     <md-button class="md-secondary" ng-click="showNodeEditPopup($index)">Edit Info</md-button>
+   </md-list-item>
+
+
+</md-list>
+</div>

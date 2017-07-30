@@ -1,0 +1,7 @@
+SELECT schedule.id, schedule.type, schedule.associated_id, schedule.startdate, schedule.enddate, schedule.day, schedule.freq, schedule.starttime,
+schedule.length, schedule.onlength, schedule.offlength, schedule.name, zoneNodes.node_id, node.gpio,
+DATE_FORMAT(startdate,"%d/%m/%Y") AS pretty_startdate, DATE_FORMAT(enddate,"%d/%m/%Y")
+AS pretty_enddate
+FROM schedule
+  LEFT JOIN zoneNodes ON schedule.associated_id=zoneNodes.zone_id
+  LEFT JOIN node ON zoneNodes.node_id=node.id;

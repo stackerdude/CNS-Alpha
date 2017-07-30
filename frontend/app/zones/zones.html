@@ -1,0 +1,52 @@
+<div ng-controller="ZonesCtrl" ng-init="init()">
+    <div layout="row" layout-margin>
+        <div flex="80" >
+          <h2>Current Zones</h2>
+
+        </div>
+        <div flex="20" >
+            <md-button class="md-fab" aria-label="Add Zone" ng-click="showCreatePopup()">
+                <md-icon md-svg-src="assets/svg/ic_add_black_24px.svg"></md-icon>
+            </md-button>
+
+        </div>
+    </div>
+
+
+
+    <md-expansion-panel-group md-component-id="panelGroup" >
+        <div ng-repeat="zone in currentZones">
+            <md-expansion-panel md-component-id="zone{{$index}}">
+                <md-expansion-panel-collapsed>
+                    <div class="md-title">{{zone.name}}</div>
+                    <div class="md-summary">{{zone.location}}</div>
+                    <md-expansion-panel-icon></md-expansion-panel-icon>
+                </md-expansion-panel-collapsed>
+                <md-expansion-panel-expanded>
+
+                    <md-expansion-panel-header>
+                        <div class="md-title">{{zone.name}}</div>
+                        <div class="md-summary">{{zone.location}}</div>
+                        <md-expansion-panel-icon></md-expansion-panel-icon>
+                    </md-expansion-panel-header>
+
+                    <md-expansion-panel-content>
+                        <div ng-repeat="node in zone.nodes">
+                            <p>{{node.name}}</p>
+                        </div>
+                    </md-expansion-panel-content>
+
+                    <md-expansion-panel-footer>
+                        <div flex></div>
+                        <md-button class="md-warn" ng-click="$panel.collapse()">Collapse</md-button>
+                    </md-expansion-panel-footer>
+
+                </md-expansion-panel-expanded>
+            </md-expansion-panel>
+        </div>
+
+
+
+    </md-expansion-panel-group>
+
+</div>

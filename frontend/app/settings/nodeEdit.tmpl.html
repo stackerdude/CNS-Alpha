@@ -1,0 +1,45 @@
+<md-dialog aria-label="Mango (Fruit)">
+    <form ng-cloak>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>Edit Node</h2>
+                <span flex></span>
+                <md-button class="md-icon-button" ng-click="cancel()">
+                    <md-icon md-svg-src="assets/svg/ic_close_black_24px.svg" aria-label="Close dialog"></md-icon>
+                </md-button>
+            </div>
+        </md-toolbar>
+
+        <md-dialog-content>
+            <md-content layout-padding>
+                <div>
+                    <form name="userForm" layout-padding>
+                        <md-input-container class="md-block" flex-gt-xs>
+                            <label>Node Name</label>
+                            <input ng-model="locals.nodes[index].name">
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-xs>
+                            <label>Node Location</label>
+                            <input ng-model="locals.nodes[index].location">
+                        </md-input-container>
+                        <md-input-container class="md-block" flex-gt-xs>
+                            <label>Node GPIO</label>
+                            <input ng-model="locals.nodes[index].gpio">
+                        </md-input-container>
+
+
+                    </form>
+
+                </div>
+            </md-content>
+
+        </md-dialog-content>
+
+        <md-dialog-actions layout="row">
+            <md-button ng-click="saveNodeChanges(locals.node)" class="md-raised md-primary">Save Changes</md-button>
+            <md-button ng-click="cancel()" class="md-raised md-warn">Close</md-button>
+
+
+        </md-dialog-actions>
+    </form>
+</md-dialog>

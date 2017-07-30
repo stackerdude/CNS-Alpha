@@ -1,0 +1,46 @@
+<md-dialog aria-label="Mango (Fruit)">
+  <form ng-cloak>
+    <md-toolbar>
+      <div class="md-toolbar-tools">
+        <h2>New Zone</h2>
+        <span flex></span>
+        <md-button class="md-icon-button" ng-click="cancel()">
+          <md-icon md-svg-src="assets/svg/ic_close_black_24px.svg" aria-label="Close dialog"></md-icon>
+        </md-button>
+      </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+      <div class="new_zone_form" layout-padding>
+          <md-input-container class="md-block" flex-gt-xs>
+              <label>Zone Name</label>
+              <input ng-model="locals.newZone.name" >
+          </md-input-container>
+          <md-input-container class="md-block" flex-gt-xs>
+              <label>Zone Location</label>
+              <input ng-model="locals.newZone.location" >
+          </md-input-container>
+
+
+
+          <div ng-repeat="node in locals.newZone.nodes">
+
+            <md-select ng-model="node.id">
+                <md-option ng-repeat="node in locals.allNodes" ng-value="node.id">
+                    {{node.name}}
+                </md-option>
+            </md-select>
+          </div>
+
+      </div>
+    </md-dialog-content>
+
+    <md-dialog-actions layout="row">
+      <md-button ng-click="locals.addNode()" class="md-raised">Another Node</md-button>
+      <md-button ng-click="createZone()" class="md-raised md-primary">Save</md-button>
+      <md-button ng-click="cancel()" class="md-raised md-warn">Close</md-button>
+
+
+    </md-dialog-actions>
+  </form>
+</md-dialog>

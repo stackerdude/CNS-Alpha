@@ -1,0 +1,6 @@
+backend/node_modules/
+frontend/node_modules/
+frontend/app/bower_components/
+frontend/app/assets/
+frontend/app/components/
+
