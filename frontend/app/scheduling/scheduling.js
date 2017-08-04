@@ -100,8 +100,7 @@ angular.module('myApp.scheduling', ['ngRoute'])
 
 
         var deleteScheduleDataReceived = function(response) {
-          $http.get('http://10.1.1.11:8080/allSchedule').then(scheduleDataReceived, scheduleDataError);
-
+          $scope.init();
 
         };
 
@@ -155,21 +154,39 @@ angular.module('myApp.scheduling', ['ngRoute'])
             // Get the zone name
             var scheduleCreatePayload = {};
             scheduleCreatePayload.schedule_type = $scope.schedule.type;
-            scheduleCreatePayload.associated_id = $scope.schedule.id;
-            scheduleCreatePayload.schedule_startdate = $scope.schedule.startdate.toISOString().split('T')[0];
-            scheduleCreatePayload.schedule_enddate = $scope.schedule.enddate.toISOString().split('T')[0];
-            scheduleCreatePayload.schedule_day = $scope.schedule.day;
+            scheduleCreatePayload.associated_id = $scope.schedule.associated_id;
+            scheduleCreatePayload.schedule_startdate = $scope.schedule.startDate.toISOString().split('T')[0];
+            scheduleCreatePayload.schedule_enddate = $scope.schedule.endDate.toISOString().split('T')[0];
+            scheduleCreatePayload.schedule_day = $scope.schedule.days;
             scheduleCreatePayload.schedule_freq = $scope.schedule.freq;
-            scheduleCreatePayload.schedule_starttime = $scope.schedule.starttime.toLocaleTimeString();
+            scheduleCreatePayload.schedule_starttime = $scope.schedule.startTime.toLocaleTimeString();
             scheduleCreatePayload.schedule_length = $scope.schedule.length;
             scheduleCreatePayload.schedule_name = $scope.schedule.name;
-            scheduleCreatePayload.schedule_onlength = $scope.schedule.onlength;
-            scheduleCreatePayload.schedule_offlength = $scope.schedule.offlength;
+            scheduleCreatePayload.schedule_onlength = $scope.schedule.onLength;
+            scheduleCreatePayload.schedule_offlength = $scope.schedule.offLength;
 
 
 
 
             $http.post('http://10.1.1.11:8080/createSchedule', scheduleCreatePayload).then(scheduleSaved, nodeDataError);
+
+        }
+
+        $scope.updateSchedule = function() {
+            // Get the zone name
+            var scheduleUpdatePayload = {};
+            scheduleUpdatePayload.schedule_id = $scope.schedule.id;
+            scheduleUpdatePayload.schedule_startdate = $scope.schedule.startDate.toISOString().split('T')[0];
+            scheduleUpdatePayload.schedule_enddate = $scope.schedule.endDate.toISOString().split('T')[0];
+            scheduleUpdatePayload.schedule_day = $scope.schedule.days;
+            scheduleUpdatePayload.schedule_starttime = $scope.schedule.startTime.toLocaleTimeString();
+            scheduleUpdatePayload.schedule_length = $scope.schedule.length;
+            scheduleUpdatePayload.schedule_onlength = $scope.schedule.onLength;
+            scheduleUpdatePayload.schedule_offlength = $scope.schedule.offLength;
+            console.log(scheduleUpdatePayload);
+
+
+            $http.post('http://10.1.1.11:8080/updateSchedule', scheduleUpdatePayload).then(scheduleSaved, nodeDataError);
 
         }
 
@@ -182,16 +199,27 @@ angular.module('myApp.scheduling', ['ngRoute'])
             $scope.schedules = response.data;
 
             // Map the day of Weekly
-
-            for(var i = 0; i < $scope.schedules.length; i++){
-              for (var k = 0; k < $scope.schedules[i].days.length; k++){
-                $scope.schedules[i].pretty_day = $scope.schedules[i].pretty_day + $scope.dayNumberToString($scope.schedules[i].days[k]);
-              }
+            for (var i = 0; i < $scope.schedules[i].length; i++){
+              $scope.schedules[i].pretty_day = $scope.buildDayString($scope.schedules[i].days);
             }
+
 
         };
 
+        $scope.buildDayString = function(day_id) {
+          var fullDayString = null;
+          for(var i = 0; i < day_id.length; i++){
+            var dayString =  $scope.dayNumberToString(day_id[i]);
+            if(fullDayString == null){
+              fullDayString = dayString;
+            }
+            else{
+              fullDayString = fullDayString + ", " + dayString;
 
+            }
+          }
+          return fullDayString;
+        }
         var scheduleDataError = function(response) {
             console.log(response);
         };
@@ -199,6 +227,10 @@ angular.module('myApp.scheduling', ['ngRoute'])
         $scope.dayNumberToString = function(day_id) {
             return $scope.days[day_id].name;
 
+        }
+
+        $scope.edit = function (schedule_id) {
+          console.log(schedule_id);
         }
 
 
@@ -234,6 +266,34 @@ angular.module('myApp.scheduling', ['ngRoute'])
                     $scope.status = 'You cancelled the dialog.';
                 });
         };
+        $scope.showEditPopup = function(schedule_id) {
+          $scope.schedule = $scope.schedules[schedule_id];
+          $scope.schedule.type = $scope.schedules[schedule_id].target.type;
+          $scope.schedule.startDate = new Date($scope.schedules[schedule_id].startDate);
+          $scope.schedule.endDate = new Date($scope.schedules[schedule_id].endDate);
+          // Remove the second from the time objects
+
+          var timeSplit = $scope.schedules[schedule_id].startTime.split(":")
+          $scope.schedule.startTime = timeSplit[0] + ":"+ timeSplit[1];
+
+            $mdDialog.show({
+                    controller: DialogController,
+                    locals: {
+                      parent: $scope
+                    },
+                    templateUrl: 'scheduling/editSchedule.tmpl.html',
+                    parent: angular.element(document.body),
+                    clickOutsideToClose: true,
+                    controllerAs: 'ctrl',
+                    bindToController: true,
+                    fullscreen: $scope.customFullscreen // Only for -xs, -sm breakpoints.
+                })
+                .then(function(answer) {
+                    $scope.status = 'You said the information was "' + answer + '".';
+                }, function() {
+                    $scope.status = 'You cancelled the dialog.';
+                });
+        };
 
         function DialogController($scope, $mdDialog, locals) {
             $scope.locals = locals.parent;
@@ -251,6 +311,11 @@ angular.module('myApp.scheduling', ['ngRoute'])
             };
             $scope.createSchedule = function(answer) {
                 $scope.locals.createSchedule();
+                $scope.cancel();
+            };
+
+            $scope.updateSchedule = function(answer) {
+                $scope.locals.updateSchedule();
                 $scope.cancel();
             };
         }

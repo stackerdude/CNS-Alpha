@@ -325,3 +325,20 @@ app.post('/deleteSchedule', function(req, res) {
 app.get('/allSchedule', function(req, res) {
   res.json(system.getAllSchedules());
 });
+
+app.post('/updateSchedule', function(req, res) {
+    var schedule_id = req.body.schedule_id;
+
+    console.log(schedule_id);
+    var schedule = system.getScheduleById(schedule_id);
+    console.log(schedule);
+    schedule._update(req.body.schedule_startdate, req.body.schedule_enddate,
+      req.body.schedule_day, req.body.schedule_starttime,req.body.schedule_length,
+      req.body.schedule_onlength, req.body.schedule_offlength).then(function () {
+        res.status(200);
+        res.end();
+      }.bind(this))
+
+
+
+});

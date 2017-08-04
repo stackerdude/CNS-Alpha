@@ -173,6 +173,7 @@ class Node {
     object.location = this.location;
     object.lock = this.lock;
     object.schedules = [];
+    object.type = this.type;
 
     for(var i = 0; i < this.schedules.length; i++){
       var schedule = this.schedules[i];

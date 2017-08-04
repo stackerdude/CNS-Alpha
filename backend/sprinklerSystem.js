@@ -74,7 +74,7 @@ class SprinklerSystem {
       var node = this.nodes[i];
       node.schedules.map(function(val) {
         var obj = val._jsonifyState();
-        obj.target = val._jsonifyState();
+        obj.target = val.target._jsonifyState();
         schedules.push(obj);
       });
 
@@ -83,7 +83,7 @@ class SprinklerSystem {
       var zone = this.zones[i];
       zone.schedules.map(function(val) {
         var obj = val._jsonifyState();
-        obj.target = val._jsonifyState();
+        obj.target = val.target._jsonifyState();
         schedules.push(obj);
 
       })
@@ -123,7 +123,8 @@ class SprinklerSystem {
       var node = this.nodes[idx];
       systemState.push(node._jsonifyState());
     }
-    systemState.push(this.masterNode._jsonifyState());
+    // Get the master
+    // systemState.push(this.masterNode._jsonifyState());
 
     return systemState;
   }

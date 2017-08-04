@@ -18,8 +18,8 @@
         <div ng-repeat="schedule in schedules">
             <md-expansion-panel md-component-id="schedule{{$index}}">
                 <md-expansion-panel-collapsed>
-                    <div class="md-title">{{schedule.name}}</div>
-                    <div class="md-summary">{{dayNumberToString(schedule.starttime)}} {{schedule.startTime}}</div>
+                    <div class="md-title">{{schedule.name}} </div>
+                    <div class="md-summary">Target: {{schedule.target.name}} - {{schedule.pretty_day}}  {{schedule.startTime}}</div>
                     <div>
                       <md-button class="md-raised" ng-disabled="true">Status: {{schedule.status}}</md-button>
                       <md-button class="md-raised" ng-click="toggleScheduleLock($index)">Manual Overide: {{schedule.lock}}</md-button>
@@ -30,7 +30,7 @@
 
                     <md-expansion-panel-header>
                         <div class="md-title">{{schedule.name}}</div>
-                        <div class="md-summary">{{dayNumberToString(schedule.starttime)}} {{schedule.startTime}}</div>
+                        <div class="md-summary">Target: {{schedule.target.name}} - {{schedule.pretty_day}}  {{schedule.startTime}}</div>
                         <div>
                           <md-button class="md-raised" >Status: {{schedule.status}}</md-button>
                           <md-button class="md-raised" ng-click="toggleScheduleLock($index)">Manual Overide: {{schedule.lock}}</md-button>
@@ -39,7 +39,14 @@
                     </md-expansion-panel-header>
 
                     <md-expansion-panel-content>
-
+                      <div layout="row" layout-xs="row">
+                        <div flex>
+                            <md-input-container class="md-block" flex-gt-xs>
+                                <label>Target</label>
+                                <input ng-model="schedule.target.name" >
+                            </md-input-container>
+                        </div>
+                      </div>
                         <div layout="row" layout-xs="row">
                             <div flex>
                                 <md-input-container class="md-block" flex-gt-xs>
@@ -94,6 +101,8 @@
 
                     <md-expansion-panel-footer>
                         <div flex></div>
+                        <md-button class="md-raised md-warn" ng-click="showEditPopup($index)">Edit</md-button>
+
                         <md-button class="md-raised md-warn" ng-click="deleteSchedule(schedule.id)">Delete</md-button>
                         <md-button class="md-warn" ng-click="$panel.collapse()">Collapse</md-button>
                     </md-expansion-panel-footer>

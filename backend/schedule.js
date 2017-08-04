@@ -18,14 +18,18 @@ class Schedule {
     this.connectionPool = connectionPool
 
 
+
+    this._buildScheduleDays();
+
+  }
+
+  _buildScheduleDays() {
     // Build ScheduleDay for this Schedule
     for (var day in this.days) {
       var dayNumber = this.days[day];
       var daySchedule = new ScheduleDay(dayNumber, this, this.connectionPool);
       this.scheduleDays.push(daySchedule);
     }
-
-
 
 
   }
@@ -98,7 +102,52 @@ class Schedule {
   }
 
   // Update the DB record
-  update() {}
+
+  _update(schedule_startdate, schedule_enddate, schedule_day, schedule_starttime,
+    schedule_length, schedule_onlength, schedule_offlength) {
+    return new Promise(function(resolve, reject) {
+      // Update local object values
+      this.startDate = schedule_startdate;
+      this.endDate = schedule_enddate;
+      this.days = schedule_day;
+      this.startTime = schedule_starttime;
+      this.length = schedule_length;
+      this.onLength = schedule_onlength;
+      this.offLength = schedule_offlength;
+
+      // Delete all the scheduleDays and remove timeObjects
+      var promiseArray = [];
+      for (var i = 0; i < this.scheduleDays.length; i++) {
+        var daySchedule = this.scheduleDays[i];
+        promiseArray.push(daySchedule.destory());
+      }
+      // Delete the class  object
+      daySchedule = [];
+      // Rebuild the scedule days
+      this._buildScheduleDays();
+
+
+      Promise.all(promiseArray).then(function() {
+        // Update the DB to reflect the new local vales
+        var query = "UPDATE  schedule SET startdate=?, enddate=?, freq=?, starttime=?, length=?, onlength=?, offlength=? WHERE id=?";
+        var values = [this.startDate, this.endDate, 'del', this.startTime, this.length, this.onLength, this.offLength, this.id];
+        console.log(values);
+
+        this.connectionPool.query(query, values, function(err, rows, fields) {
+          if (err) {
+            console.log(err);
+            reject()
+          } else {
+            console.log(rows);
+            resolve()
+          }
+
+        }.bind(this));
+      }.bind(this))
+    }.bind(this));
+
+
+  }
 
   _jsonifyState() {
     var obj = {};
@@ -114,6 +163,7 @@ class Schedule {
     obj.status = this.status;
     obj.lock = this.lock;
     obj.days = []
+
     // Get the days
 
     for (var i = 0; i < this.scheduleDays.length; i++) {
@@ -173,6 +223,30 @@ class Schedule {
       }.bind(this));
     }.bind(this))
   }
+
+  // _jsonifyState(){
+  //   var object = {}
+  //   object.id = this.id;
+  //   object.name = this.name;
+  //   object.startDate = this.startDate;
+  //   object.endDate = this.endDate;
+  //   object.startTime = this.startTime;
+  //   object.endTime = this.endTime;
+  //   object.onLength = this.onLength;
+  //   object.length = this.length;
+  //   object.days = this.days;
+  //   object.status = this.status;
+  //   object.lock = this.lock;
+  //
+  //   // Get the target info
+  //
+  //   object.target = this.target._jsonifyState();
+  //   return object;
+  //
+  //
+  //
+  //
+  // }
 
 }
 

@@ -177,6 +177,8 @@ class Zone {
     object.lock = this.lock;
     object.nodes = [];
     object.schedules = []
+    object.type = this.type;
+
 
 
     for (var i = 0; i < this.nodes.length; i++) {
